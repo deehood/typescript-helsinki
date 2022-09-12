@@ -1,22 +1,34 @@
 interface resultType {
+    target: number;
     totalDays: number;
     trainingDays: number;
-    originalTarget: number;
     averageTime: number;
     isTargetReached: boolean;
     rating: 1 | 2 | 3;
     text: string;
 }
 
-function calculateExercises(training: number[], target: number): resultType {
-    const calcRating = diff(avgArray(training), target);
+const parseArguments2 = (args: string[]): number[] => {
+    if (args.length < 3) throw new Error("Not enough arguments");
+
+    let result: number[] = args.map((value: string, index: number) => {
+        console.log(value);
+
+        if (!isNaN(Number(value)) && index > 1) return Number(value);
+        // else throw new Error("Only numbers please");
+    });
+    return result;
+};
+
+function calculateExercises(training: number[]): resultType {
+    const calcRating = diff(avgArray(training), training[0]);
 
     const result: resultType = {
-        totalDays: training.length,
-        trainingDays: training.filter((x) => x !== 0).length,
-        originalTarget: target,
+        target: training[2],
+        totalDays: training.length - 3,
+        trainingDays: training.filter((x) => x !== 0).length - 3,
         averageTime: avgArray(training),
-        isTargetReached: avgArray(training) < target ? false : true,
+        isTargetReached: avgArray(training) < training[2] ? false : true,
         rating: calcRating,
         text: ratingDesc(calcRating),
     };
@@ -55,4 +67,4 @@ function avgArray(values: number[]): number {
     );
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+console.log(calculateExercises(parseArguments2(process.argv)));
