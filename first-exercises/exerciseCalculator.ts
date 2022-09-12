@@ -11,24 +11,25 @@ interface resultType {
 const parseArguments2 = (args: string[]): number[] => {
     if (args.length < 3) throw new Error("Not enough arguments");
 
-    let result: number[] = args.map((value: string, index: number) => {
-        console.log(value);
+    let result: number[] = [];
 
-        if (!isNaN(Number(value)) && index > 1) return Number(value);
-        // else throw new Error("Only numbers please");
+    args.forEach((value: String, index: number) => {
+        if (!isNaN(Number(value))) {
+            result.push(Number(value));
+        } else if (index > 1) throw new Error("i mus have only numbers");
     });
     return result;
 };
 
-function calculateExercises(training: number[]): resultType {
-    const calcRating = diff(avgArray(training), training[0]);
+function calculateExercises([target, ...training]: number[]): resultType {
+    const calcRating = diff(avgArray(training), target);
 
     const result: resultType = {
-        target: training[2],
-        totalDays: training.length - 3,
-        trainingDays: training.filter((x) => x !== 0).length - 3,
+        target: target,
+        totalDays: training.length,
+        trainingDays: training.filter((x) => x !== 0).length,
         averageTime: avgArray(training),
-        isTargetReached: avgArray(training) < training[2] ? false : true,
+        isTargetReached: avgArray(training) < target ? false : true,
         rating: calcRating,
         text: ratingDesc(calcRating),
     };
@@ -67,4 +68,10 @@ function avgArray(values: number[]): number {
     );
 }
 
-console.log(calculateExercises(parseArguments2(process.argv)));
+try {
+    console.log(calculateExercises(parseArguments2(process.argv)));
+} catch (error) {
+    let msg = "there was an error. ";
+    if (error instanceof Error) msg += `Error : ${error.message}`;
+    console.log(msg);
+}
