@@ -1,3 +1,19 @@
+import express from "express";
+// import cors from "cors";
+
+const app = express();
+const PORT = 3003;
+
+app.listen(PORT, () => console.log(`connected to ${PORT}`));
+app.use(express.json());
+// app.use(cors);
+
+app.put("/", (req, res) => {
+    console.log(req);
+    
+    res.send({ toJSON(req) });
+});
+
 interface resultType {
     target: number;
     totalDays: number;
