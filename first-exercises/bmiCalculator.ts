@@ -1,31 +1,22 @@
-import express from "express";
-
-const app = express();
-
-app.get("/hello", (_req, res) => {
-    res.send("Hello Full Stack");
-});
-
-const PORT = 3001;
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
-
 interface inputValues {
     value1: number;
     value2: number;
 }
 
-const parseArguments = (args: string[]): inputValues => {
-    if (args.length < 3) throw new Error("welcome please give me numbers");
-    if (args.length < 4) throw new Error("not enough arguments");
-    if (args.length > 4) throw new Error("too many arguments");
-    if (isNaN(Number(args[2])) || isNaN(Number(args[3])))
+export const parseArguments = (args: string[]): inputValues => {
+    console.log(args);
+
+    if (args.length < 1) throw new Error("welcome please give me numbers");
+    if (args.length < 2) throw new Error("not enough arguments");
+    if (args.length > 2) throw new Error("too many arguments");
+    if (isNaN(Number(args[0])) || isNaN(Number(args[1])))
         throw new Error("i need numbers");
-    if (Number(args[2]) > 0 && Number(args[3]) > 0)
-        return { value1: Number(args[2]), value2: Number(args[3]) };
+    if (Number(args[0]) > 0 && Number(args[1]) > 0)
+        return { value1: Number(args[0]), value2: Number(args[1]) };
     throw new Error("i need positive numbers");
 };
 
-function calculateBmi(height: number, weight: number): string {
+export function calculateBmi(height: number, weight: number): string {
     const result = weight / (height / 100) ** 2;
 
     if (result < 18.5) return "underweight";
@@ -34,7 +25,7 @@ function calculateBmi(height: number, weight: number): string {
 }
 
 try {
-    const { value1, value2 } = parseArguments(process.argv);
+    const { value1, value2 } = parseArguments(process.argv.slice(2));
     console.log(calculateBmi(value1, value2));
 } catch (error) {
     let msg = "Hey, ";
