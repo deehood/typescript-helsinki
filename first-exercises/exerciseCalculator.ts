@@ -11,9 +11,9 @@ interface resultType {
 const parseArguments2 = (args: string[]): number[] => {
     if (args.length < 3) throw new Error("Not enough arguments");
 
-    let result: number[] = [];
+    const result: number[] = [];
 
-    args.forEach((value: String, index: number) => {
+    args.forEach((value: string, index: number) => {
         if (!isNaN(Number(value))) {
             result.push(Number(value));
         } else if (index > 1) throw new Error("i mus have only numbers");
