@@ -1,17 +1,17 @@
 import express from "express";
-// import cors from "cors";
+import cors from "cors";
 
 const app = express();
 const PORT = 3003;
 
 app.listen(PORT, () => console.log(`connected to ${PORT}`));
 app.use(express.json());
-// app.use(cors);
+app.use(cors());
 
 app.put("/", (req, res) => {
-    console.log(req);
-    
-    res.send({ toJSON(req) });
+    console.log(req.body);
+
+    res.send(req.body);
 });
 
 interface resultType {
