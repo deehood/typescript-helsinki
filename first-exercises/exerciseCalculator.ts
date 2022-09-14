@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 
 const app = express();
@@ -8,10 +8,17 @@ app.listen(PORT, () => console.log(`connected to ${PORT}`));
 app.use(express.json());
 app.use(cors());
 
-app.put("/", (req, res) => {
+app.put("/", (req: Request, res: Response) => {
     console.log(req.body);
 
-    res.send(req.body);
+    const result = calculateExercises([
+        parseArguments2(req.body.target),
+        ...parseArguments2(req.body.daily_exercises),
+    ]);
+
+    console.log(result);
+
+    res.send(`target = ${req.body.target}`);
 });
 
 interface resultType {
@@ -24,12 +31,12 @@ interface resultType {
     text: string;
 }
 
-const parseArguments2 = (args: string[]): number[] => {
+const parseArguments2 = (args: string[] | number[]): number[] => {
     if (args.length < 3) throw new Error("Not enough arguments");
 
     const result: number[] = [];
 
-    args.forEach((value: string, index: number) => {
+    args.forEach((value: string | number, index: number) => {
         if (!isNaN(Number(value))) {
             result.push(Number(value));
         } else if (index > 1) throw new Error("i mus have only numbers");
