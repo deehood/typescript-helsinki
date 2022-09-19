@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, ErrorRequestHandler } from "express";
 import cors from "cors";
 
 const app = express();
@@ -8,19 +8,37 @@ app.listen(PORT, () => console.log(`connected to ${PORT}`));
 app.use(express.json());
 app.use(cors());
 
-app.put("/", (req: Request, res: Response) => {
-    console.log(req.body);
+const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+    res.status(err.status || 500);
+    const msg = "Sorry , thats was an Invalid object";
+    console.log(msg);
+    res.send(msg);
+    next(err);
+};
 
-    const result = calculateExercises([
-        parseArguments2(req.body.target),
-        ...parseArguments2(req.body.daily_exercises),
-    ]);
+app.post("/", (req: Request, res: Response) => {
+    try {
+        const result = calculateExercises([
+            ...parseArguments2([
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                req.body.target,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+                ...parseArguments2(req.body.daily_exercises),
+            ]),
+        ]);
 
-    console.log(result);
-
-    res.send(`target = ${req.body.target}`);
+        console.log("result", result);
+        res.send(result);
+    } catch (error) {
+        let msg = "Sorry, there was an error. ";
+        if (error instanceof Error) msg += `Error : ${error.message}`;
+        console.log(msg);
+        res.status(400).send(msg);
+    }
 });
 
+app.use(errorHandler);
 interface resultType {
     target: number;
     totalDays: number;
@@ -30,20 +48,33 @@ interface resultType {
     rating: 1 | 2 | 3;
     text: string;
 }
-
+// for the post body object
 const parseArguments2 = (args: string[] | number[]): number[] => {
-    if (args.length < 3) throw new Error("Not enough arguments");
+    if (args.length < 2) throw new Error("Not enough arguments");
+
+    const result: number[] = [];
+
+    args.forEach((value: string | number) => {
+        if (!isNaN(Number(value))) {
+            result.push(Number(value));
+        } else throw new Error("i must have only numbers");
+    });
+    return result;
+};
+
+//original has arg0 and 1 text
+const parseArguments = (args: string[] | number[]): number[] => {
+    if (args.length < 4) throw new Error("Not enough arguments");
 
     const result: number[] = [];
 
     args.forEach((value: string | number, index: number) => {
         if (!isNaN(Number(value))) {
             result.push(Number(value));
-        } else if (index > 1) throw new Error("i mus have only numbers");
+        } else if (index > 1) throw new Error("i must have only numbers");
     });
     return result;
 };
-
 function calculateExercises([target, ...training]: number[]): resultType {
     const calcRating = diff(avgArray(training), target);
 
@@ -92,7 +123,7 @@ function avgArray(values: number[]): number {
 }
 
 try {
-    console.log(calculateExercises(parseArguments2(process.argv)));
+    console.log(calculateExercises(parseArguments(process.argv)));
 } catch (error) {
     let msg = "there was an error. ";
     if (error instanceof Error) msg += `Error : ${error.message}`;
