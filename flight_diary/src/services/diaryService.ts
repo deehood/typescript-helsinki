@@ -1,7 +1,10 @@
-import diaryData from "../data/diaries.json";
+import diaryData from "../data/diaries";
+import { DiaryEntry } from "../types";
 
-const getEntries = () => {
-    return diaryData;
+const diaries: Array<DiaryEntry> = diaryData;
+
+const getEntries = (): Array<DiaryEntry> => {
+    return diaries;
 };
 
 const addDiary = () => {
