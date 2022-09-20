@@ -5,6 +5,8 @@ const isString = (text: unknown): text is string => {
 };
 
 const parseComment = (comment: unknown): string => {
+    console.log("parse", comment);
+
     if (!comment || !isString(comment)) {
         throw new Error("incorrect or missing comment");
     }
@@ -51,12 +53,15 @@ const parseVisibility = (visibility: unknown): Visibility => {
 //     visibility: unknown;
 // };
 const toNewDiaryEntry = (object: any): NewDiaryEntry => {
+    console.log("object", object);
+
     const newEntry: NewDiaryEntry = {
         comment: parseComment(object.comment),
         date: parseDate(object.date),
         weather: parseWeather(object.weather),
         visibility: parseVisibility(object.visibility),
     };
+    console.log("newEntry", newEntry);
 
     return newEntry;
 };
