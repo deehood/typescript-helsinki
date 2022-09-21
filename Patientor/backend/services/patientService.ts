@@ -1,6 +1,6 @@
 import patientData from "../data/patients";
 import { PatientWithoutSsn } from "../types";
-import { v1 as uuid } from "uuid";
+import toNewPatient from "../utils";
 
 const getPatients = (): Array<PatientWithoutSsn> => {
     return patientData.map(({ id, name, dateOfBirth, gender, occupation }) => ({
@@ -21,11 +21,10 @@ const getPatients = (): Array<PatientWithoutSsn> => {
 // };
 
 const addPatient = (obj: any) => {
-    const id = uuid();
-    const newObj = { id, ...obj };
-    patientData.push(newObj);
+    const newPatient = toNewPatient(obj);
 
-    return newObj;
+    patientData.push(newPatient);
+    return newPatient;
 
     // {
     //     name,
