@@ -1,6 +1,5 @@
 import patientData from "../data/patients";
-import { PatientWithoutSsn, Patient } from "../types";
-
+import { PatientWithoutSsn } from "../types";
 import { v1 as uuid } from "uuid";
 
 const getPatients = (): Array<PatientWithoutSsn> => {
@@ -13,21 +12,28 @@ const getPatients = (): Array<PatientWithoutSsn> => {
     }));
 };
 
-type Fields = {
-    name: unknown;
-    dateOfBirth: unknown;
-    ssn: unknown;
-    gender: unknown;
-    occupation: unknown;
-};
+// type Fields = {
+//     name: unknown;
+//     dateOfBirth: unknown;
+//     ssn: unknown;
+//     gender: unknown;
+//     occupation: unknown;
+// };
 
-const addPatient = ({
-    name,
-    dateOfBirth,
-    ssn,
-    gender,
-    occupation,
-}: Fields): Patient => {
+const addPatient = (obj: any) => {
+    const id = uuid();
+    const newObj = { id, ...obj };
+    patientData.push(newObj);
+
+    return newObj;
+
+    // {
+    //     name,
+    //     dateOfBirth,
+    //     ssn,
+    //     gender,
+    //     occupation,
+    // }: Fields): Patient => {
     //     const newObj={
     //         id:uuid(),
     //         name: parseName(obj.name),
@@ -38,18 +44,6 @@ const addPatient = ({
     //     }
     //    return newObj
     // };
-
-    const id = uuid();
-    const newObj = {
-        id,
-        name,
-        dateOfBirth,
-        ssn,
-        gender,
-        occupation,
-    };
-    patientData.push(newObj);
-    return newObj;
 };
 
 export default {
