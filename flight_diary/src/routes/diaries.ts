@@ -17,8 +17,6 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
     try {
-        console.log(req.body);
-
         const newDiaryEntry = toNewDiaryEntry(req.body);
         // console.log("newDiaryEntry ", newDiaryEntry);
 

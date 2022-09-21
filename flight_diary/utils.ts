@@ -52,14 +52,24 @@ const parseVisibility = (visibility: unknown): Visibility => {
 //     weather: unknown;
 //     visibility: unknown;
 // };
-const toNewDiaryEntry = (object: any): NewDiaryEntry => {
-    console.log("object", object);
+const toNewDiaryEntry = (
+    //     {
+    //     comment,
+    //     date,
+    //     weather,
+    //     visibility,
+    // }: Fields
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    obj: any
+): NewDiaryEntry => {
+    // console.log("object", obj);
+    console.log(obj.comment);
 
     const newEntry: NewDiaryEntry = {
-        comment: parseComment(object.comment),
-        date: parseDate(object.date),
-        weather: parseWeather(object.weather),
-        visibility: parseVisibility(object.visibility),
+        comment: parseComment(obj.comment),
+        date: parseDate(obj.date),
+        weather: parseWeather(obj.weather),
+        visibility: parseVisibility(obj.visibility),
     };
     console.log("newEntry", newEntry);
 
