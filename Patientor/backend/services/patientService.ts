@@ -1,5 +1,5 @@
 import patientData from "../data/patients";
-import { PatientWithoutSsn } from "../types";
+import { PatientWithoutSsn, Patient } from "../types";
 import toNewPatient from "../utils";
 
 const getPatients = (): Array<PatientWithoutSsn> => {
@@ -20,11 +20,10 @@ const getPatients = (): Array<PatientWithoutSsn> => {
 //     occupation: unknown;
 // };
 
-const addPatient = (obj: any) => {
-    const newPatient = toNewPatient(obj);
-
-    patientData.push(newPatient);
-    return newPatient;
+const addPatient = (obj: unknown) => {
+    const patientToAdd: Patient = toNewPatient(obj);
+    patientData.push(patientToAdd);
+    return patientToAdd;
 
     // {
     //     name,

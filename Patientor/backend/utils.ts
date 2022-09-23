@@ -7,7 +7,7 @@ const isString = (text: unknown): text is string => {
 
 const parseString = (field: unknown): string => {
     if (!field || !isString(field)) {
-        throw new Error(`Error: ${field} is not a string`);
+        throw new Error(`${field} is not a string`);
     }
     return field;
 };
