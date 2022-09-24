@@ -1,8 +1,11 @@
-import { Patient } from "./types";
+import { Patient,Gender } from "./types";
 import { v1 as uuid } from "uuid";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
+};
+const isGender = (text: unknown): text is Gender => {
+    return typeof text === "Gender" || text instanceof Gender;
 };
 
 const parseString = (field: unknown): string => {
@@ -11,6 +14,13 @@ const parseString = (field: unknown): string => {
     }
     return field;
 };
+
+Const parseGender =(field:unknown):Gender =>{
+    if(!field || !isGender(field) {
+        throw new Error(`${field} is not a string`) 
+    })
+    return field
+}
 
 const isDate = (date: string): boolean => Boolean(Date.parse(date));
 
@@ -27,7 +37,7 @@ const toNewPatient = (obj: any): Patient => {
         name: parseString(obj.name),
         dateOfBirth: parseDate(obj.dateOfBirth),
         ssn: parseString(obj.ssn),
-        gender: parseString(obj.gender),
+        gender: parseGender(obj.gender),
         occupation: parseString(obj.occupation),
     };
 
