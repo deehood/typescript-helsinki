@@ -1,11 +1,13 @@
-import { Patient,Gender } from "./types";
+import { Patient, Gender } from "./types";
 import { v1 as uuid } from "uuid";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
 };
-const isGender = (text: unknown): text is Gender => {
-    return typeof text === "Gender" || text instanceof Gender;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isGender = (text: any): text is Gender => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return Object.values(Gender).includes(text);
 };
 
 const parseString = (field: unknown): string => {
@@ -15,12 +17,12 @@ const parseString = (field: unknown): string => {
     return field;
 };
 
-Const parseGender =(field:unknown):Gender =>{
-    if(!field || !isGender(field) {
-        throw new Error(`${field} is not a string`) 
-    })
-    return field
-}
+const parseGender = (field: unknown): Gender => {
+    if (!field || !isGender(field)) {
+        throw new Error(`${field} is not a gender`);
+    }
+    return field;
+};
 
 const isDate = (date: string): boolean => Boolean(Date.parse(date));
 
@@ -30,10 +32,13 @@ const parseDate = (date: unknown): string => {
     }
     return date;
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const toNewPatient = (obj: any): Patient => {
-    const id = uuid();
+    if (!Object.prototype.hasOwnProperty.call(obj, "id")) {
+        obj.id = uuid();
+    }
     const newObj: Patient = {
-        id,
+        id: obj.id as string,
         name: parseString(obj.name),
         dateOfBirth: parseDate(obj.dateOfBirth),
         ssn: parseString(obj.ssn),
