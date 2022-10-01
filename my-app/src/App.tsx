@@ -4,6 +4,8 @@ import Content from "./components/Content";
 const App = () => {
     const courseName = "Half Stack application development";
 
+    const totalCount = (coursesArray:CourseList):Number
+
     const courseParts = [
         {
             name: "Fundamentals",
@@ -23,13 +25,9 @@ const App = () => {
         <div>
             <Header courseName2={courseName} />
             <Content courses={courseParts} />
-            <p>
-                Number of exercises{" "}
-                {courseParts.reduce(
+            <Total total ={{courseParts.reduce(
                     (carry, part) => carry + part.exerciseCount,
-                    0
-                )}
-            </p>
+                    0}
         </div>
     );
 };

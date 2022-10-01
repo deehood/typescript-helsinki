@@ -4,7 +4,7 @@ interface Course {
     name: string;
     exerciseCount: number;
 }
-interface CourseList {
+interface\ CourseList {
     courses: Course[];
 }
 
