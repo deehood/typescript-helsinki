@@ -1,10 +1,13 @@
 import React from "react";
-import { TotalExercises } from "../types";
-const Total = (total: TotalExercises) => {
+
+import { TotalExercisesProps } from "../types";
+const Total = ({ totalExercises }: TotalExercisesProps): JSX.Element => {
     return (
-        <div>
-            <p>Number of exercises {total}</p>
-        </div>
+        <>
+            <div>
+                <p> Number of exercises {totalExercises} </p>
+            </div>
+        </>
     );
 };
 

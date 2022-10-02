@@ -1,6 +1,5 @@
-import React from "react";
-import { Courses } from "../types";
-const Content = ({ courses }: Courses) => {
+import { CoursesProps } from "../types";
+const Content = ({ courses }: CoursesProps) => {
     return (
         <div>
             <p>
