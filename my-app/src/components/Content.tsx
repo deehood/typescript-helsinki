@@ -1,14 +1,6 @@
 import React from "react";
-
-interface Course {
-    name: string;
-    exerciseCount: number;
-}
-interface\ CourseList {
-    courses: Course[];
-}
-
-const Content = ({ courses }: CourseList) => {
+import { Courses } from "../types";
+const Content = (courses: Courses) => {
     console.log(courses);
 
     return (

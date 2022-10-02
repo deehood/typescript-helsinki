@@ -1,15 +1,9 @@
 import React from "react";
-
-const Total = () => {
+import { TotalExercises } from "../types";
+const Total = (total: TotalExercises) => {
     return (
         <div>
-            <p>
-                Number of exercises{" "}
-                {courseParts.reduce(
-                    (carry, part) => carry + part.exerciseCount,
-                    0
-                )}
-            </p>
+            <p>Number of exercises {total}</p>
         </div>
     );
 };

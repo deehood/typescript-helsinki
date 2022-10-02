@@ -1,11 +1,7 @@
 import React from "react";
-
-interface HeaderProps {
-    courseName2: string;
-}
-
-const Header = ({ courseName2 }: HeaderProps) => {
-    return <div>{courseName2}</div>;
+import { CourseName } from "../types";
+const Header = (courseName: CourseName) => {
+    return <div>{courseName}</div>;
 };
 
 export default Header;

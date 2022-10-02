@@ -1,10 +1,17 @@
 import Header from "./components/Header";
 import Content from "./components/Content";
+import Total from "./components/Total";
+import { Courses } from "./types";
 
 const App = () => {
     const courseName = "Half Stack application development";
 
-    const totalCount = (coursesArray:CourseList):Number
+    const totalCount = (coursesArray: Courses): number => {
+        return coursesArray.reduce((acc, next) => {
+            acc += next.exerciseCount;
+            return acc;
+        }, 0);
+    };
 
     const courseParts = [
         {
@@ -23,11 +30,9 @@ const App = () => {
 
     return (
         <div>
-            <Header courseName2={courseName} />
+            <Header courseName={courseName} />
             <Content courses={courseParts} />
-            <Total total ={{courseParts.reduce(
-                    (carry, part) => carry + part.exerciseCount,
-                    0}
+            <Total total={totalCount(courseParts)} />
         </div>
     );
 };
