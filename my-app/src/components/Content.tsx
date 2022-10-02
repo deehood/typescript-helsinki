@@ -1,8 +1,6 @@
 import React from "react";
 import { Courses } from "../types";
-const Content = (courses: Courses) => {
-    console.log(courses);
-
+const Content = ({ courses }: Courses) => {
     return (
         <div>
             <p>

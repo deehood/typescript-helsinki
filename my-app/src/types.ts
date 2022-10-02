@@ -2,8 +2,12 @@ export interface Course {
     name: string;
     exerciseCount: number;
 }
-export type Courses = Array<Course>;
+export interface Courses {
+    courses: Array<Course>;
+}
 
-export type CourseName = string;
+export interface CourseName {
+    courseName: string;
+}
 
 export type TotalExercises = number;

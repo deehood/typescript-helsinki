@@ -1,13 +1,13 @@
 import Header from "./components/Header";
 import Content from "./components/Content";
 import Total from "./components/Total";
-import { Courses } from "./types";
+import { Course, Courses } from "./types";
 
 const App = () => {
     const courseName = "Half Stack application development";
 
     const totalCount = (coursesArray: Courses): number => {
-        return coursesArray.reduce((acc, next) => {
+        return coursesArray.reduce((acc: number, next: Course) => {
             acc += next.exerciseCount;
             return acc;
         }, 0);
