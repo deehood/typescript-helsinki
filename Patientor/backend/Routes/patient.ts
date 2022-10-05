@@ -1,13 +1,16 @@
 import express from "express";
 import patientService from "../services/patientService";
-// import { Patient } from "../types";
 
 const router = express.Router();
 
 router.get("/", (_req, res) => {
-    patientService.getPatients()
-        ? res.send(patientService.getPatients())
-        : res.sendStatus(404);
+    const result = patientService.getPatients();
+    result ? res.send(result) : res.sendStatus(404);
+});
+
+router.get("/:id", (req, res) => {
+    const result = patientService.getPatientData(req.params.id);
+    result ? res.send(result) : res.sendStatus(404);
 });
 
 router.post("/", (req, res) => {
