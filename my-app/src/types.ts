@@ -2,9 +2,13 @@ export interface NameProps {
     courseName: string;
 }
 
-export interface CoursesArray {
+export interface CoursesProps {
     courses: CoursePart[];
 }
+export interface CourseProps {
+    course: CoursePart;
+}
+
 export interface TotalExercisesProps {
     totalExercises: number;
 }
@@ -27,6 +31,11 @@ export interface CourseProjectPart extends CoursePartBase {
     groupProjectCount: number;
 }
 
+export interface CourseSpecialPart extends CoursePartBaseWithDescription {
+    type: "special";
+    requirements: Array<string>;
+}
+
 export interface CourseSubmissionPart extends CoursePartBaseWithDescription {
     type: "submission";
     exerciseSubmissionLink: string;
@@ -35,4 +44,5 @@ export interface CourseSubmissionPart extends CoursePartBaseWithDescription {
 export type CoursePart =
     | CourseNormalPart
     | CourseProjectPart
-    | CourseSubmissionPart;
+    | CourseSubmissionPart
+    | CourseSpecialPart;

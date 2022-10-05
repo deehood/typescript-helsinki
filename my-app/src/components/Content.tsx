@@ -1,18 +1,25 @@
-import { CoursePart, CoursesArray } from "../types";
-const Content = ({ courses }: CoursesArray) => {
-    return (
-        <div>
-            <p>
-                {courses[0].name} {courses[0].exerciseCount}
-            </p>
-            <p>
-                {courses[1].name} {courses[1].exerciseCount}
-            </p>
-            <p>
-                {courses[2].name} {courses[2].exerciseCount}
-            </p>
-        </div>
-    );
+import { CoursesProps, CoursePart } from "../types";
+import Part from "./Part";
+
+const Content = ({ courses }: CoursesProps): JSX.Element => {
+    if (courses) {
+        return (
+            { courses } && (
+                <>
+                    {courses.map((course: CoursePart) => {
+                        return (
+                            <div key={course.name}>
+                                <Part course={course} />
+                                <br />
+                            </div>
+                        );
+                    })}
+                </>
+            )
+        );
+    }
+
+    return <div>No Data ...</div>;
 };
 
 export default Content;

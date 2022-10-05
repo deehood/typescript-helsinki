@@ -1,7 +1,7 @@
 import React from "react";
 import { NameProps } from "../types";
 const Header = ({ courseName }: NameProps) => {
-    return <div>{courseName}</div>;
+    return <h3>{courseName}</h3>;
 };
 
 export default Header;
