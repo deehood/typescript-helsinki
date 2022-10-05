@@ -1,16 +1,10 @@
-// export interface Course {
-//     name: string;
-//     exerciseCount: number;
-// }
-
-// export interface CoursesProps {
-//     courses: Course[];
-// }
-
 export interface NameProps {
     courseName: string;
 }
 
+export interface CoursesArray {
+    courses: CoursePart[];
+}
 export interface TotalExercisesProps {
     totalExercises: number;
 }
@@ -21,19 +15,20 @@ export interface CoursePartBase {
     type: string;
 }
 
-interface CourseNormalPart extends CoursePartBase {
-    type: "normal";
+export interface CoursePartBaseWithDescription extends CoursePartBase {
     description: string;
 }
+export interface CourseNormalPart extends CoursePartBaseWithDescription {
+    type: "normal";
+}
 
-interface CourseProjectPart extends CoursePartBase {
+export interface CourseProjectPart extends CoursePartBase {
     type: "groupProject";
     groupProjectCount: number;
 }
 
-interface CourseSubmissionPart extends CoursePartBase {
+export interface CourseSubmissionPart extends CoursePartBaseWithDescription {
     type: "submission";
-    description: string;
     exerciseSubmissionLink: string;
 }
 

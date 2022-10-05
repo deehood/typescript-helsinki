@@ -13,7 +13,7 @@ const App = () => {
         }, 0);
     };
 
-    const courseParts: CoursePart[] = [
+    const courses: Array<CoursePart> = [
         {
             name: "Fundamentals",
             exerciseCount: 10,
@@ -45,8 +45,8 @@ const App = () => {
     return (
         <div>
             <Header courseName={courseName} />
-            <Content courses={courseParts} />
-            <Total totalExercises={totalCount(courseParts)} />
+            <Content courses={courses} />
+            <Total totalExercises={totalCount(courses)} />
         </div>
     );
 };

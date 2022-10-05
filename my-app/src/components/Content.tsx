@@ -1,5 +1,5 @@
-import { CoursePart } from "../types";
-const Content = ({ courses }: CoursePart[]) => {
+import { CoursePart, CoursesArray } from "../types";
+const Content = ({ courses }: CoursesArray) => {
     return (
         <div>
             <p>
