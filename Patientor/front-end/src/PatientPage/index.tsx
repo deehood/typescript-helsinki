@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
-import { useStateValue } from "../state";
+import { useStateValue, loadPatient } from "../state";
 
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -20,7 +20,7 @@ const PatientPage = () => {
             );
             if (result.data) {
                 setPatientData(result.data);
-                dispatch({ type: "LOAD_PATIENT", payload: result.data });
+                dispatch(loadPatient(result.data));
             }
         } catch (e) {
             console.error(e);
