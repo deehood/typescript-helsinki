@@ -11,28 +11,29 @@ import { useStateValue } from "../state";
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
     const [patientData, setPatientData] = useState<Patient>();
-    const [{ patients }] = useStateValue();
-    //TODO cache rerender
-    console.log("id", id);
-    console.log("patients", patients);
+    const [{ currentPatient }, dispatch] = useStateValue();
 
-    useEffect(() => {
-        if (id && patients) {
-            const fetchPatientData = async () => {
-                try {
-                    const result = await axios.get<Patient>(
-                        `${apiBaseUrl}/patients/${id}`
-                    );
-
-                    setPatientData(result.data);
-                } catch (e) {
-                    console.error(e);
-                }
-            };
-
-            void fetchPatientData();
+    const fetchPatientData = async (id: string) => {
+        try {
+            const result = await axios.get<Patient>(
+                `${apiBaseUrl}/patients/${id}`
+            );
+            if (result.data) {
+                setPatientData(result.data);
+                dispatch({ type: "LOAD_PATIENT", payload: result.data });
+            }
+        } catch (e) {
+            console.error(e);
         }
-    }, [patients]);
+    };
+    //if there is currentPatient in state use it otherwise fetch new curentPatient
+    useEffect(() => {
+        if (id) {
+            id === currentPatient?.id
+                ? setPatientData(currentPatient)
+                : void fetchPatientData(id);
+        }
+    }, [id]);
 
     return (
         <div>
