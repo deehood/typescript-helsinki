@@ -11,17 +11,27 @@ import { useStateValue, loadPatient } from "../state";
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
     const [patientData, setPatientData] = useState<Patient>();
+    const [diagnosisData, setDiagnosisData] = useState<string[]>();
     const [{ currentPatient }, dispatch] = useStateValue();
 
     const fetchPatientData = async (id: string) => {
         try {
-            const result = await axios.get<Patient>(
+            const patient = await axios.get<Patient>(
                 `${apiBaseUrl}/patients/${id}`
             );
-            if (result.data) {
-                setPatientData(result.data);
-                dispatch(loadPatient(result.data));
+            if (patient.data) {
+                if (patient.data.entries && patient.data.entries.length !== 0) {
+                    const diags: Array<string> = patient.data.entries.reduce(
+                        (acc: Array<string>, entry) =>
+                          return  acc.concat([...entry.diagnosisCodes])
+                    );
+                    console.log("diags", diags);
+                    if (diags) setDiagnosisData(diags);
+                }
             }
+
+            setPatientData(patient.data);
+            dispatch(loadPatient(patient.data));
         } catch (e) {
             console.error(e);
         }
@@ -41,6 +51,7 @@ const PatientPage = () => {
                 <div>
                     <h4>
                         {patientData.name}
+                        {diagnosisData}
                         {patientData.gender === "female" && <FemaleIcon />}
                         {patientData.gender === "male" && <MaleIcon />}
                         {patientData.gender === "other" && <TransgenderIcon />}
