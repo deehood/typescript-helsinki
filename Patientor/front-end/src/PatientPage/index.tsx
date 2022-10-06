@@ -12,6 +12,7 @@ const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
     const [patientData, setPatientData] = useState<Patient>();
     const [{ patients }] = useStateValue();
+    //TODO cache rerender
     console.log("id", id);
     console.log("patients", patients);
 
