@@ -4,6 +4,10 @@ export interface Diagnosis {
     latin?: string;
 }
 
+export interface DiagnosisList {
+    diagnosisList: Array<Diagnosis>;
+}
+
 export enum Gender {
     Male = "male",
     Female = "female",
