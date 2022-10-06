@@ -26,7 +26,7 @@ const PatientPage = () => {
             console.error(e);
         }
     };
-    //if there is currentPatient in state use it otherwise fetch new curentPatient
+    //if there is currentPatient in state use it otherwise fetch new currentPatient
     useEffect(() => {
         if (id) {
             id === currentPatient?.id
@@ -47,6 +47,11 @@ const PatientPage = () => {
                     </h4>
                     <div>ssn: {patientData.ssn}</div>
                     <div>occupation: {patientData.occupation}</div>
+                    <div>
+                        {patientData.entries?.map((entry) => (
+                            <div key={entry.id}>{entry.type}</div>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>

@@ -1,10 +1,10 @@
-import { Diagnose } from "../types";
+import { Diagnosis } from "../types";
 import diagnoseData from "../data/diagnoses";
 
-const diagnoses: Array<Diagnose> = diagnoseData;
+const diagnosis: Array<Diagnosis> = diagnoseData;
 
-const getDiagnoses = (): Array<Diagnose> => {
-    return diagnoses;
+const getDiagnoses = (): Array<Diagnosis> => {
+    return diagnosis;
 };
 export default {
     getDiagnoses,

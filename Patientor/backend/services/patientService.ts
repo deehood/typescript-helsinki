@@ -14,7 +14,7 @@ const getPatientData = (id: string): Patient | undefined => {
               dateOfBirth: found.dateOfBirth,
               gender: found.gender,
               occupation: found.occupation,
-              entries: [],
+              entries: found.entries,
           }
         : undefined;
 };
