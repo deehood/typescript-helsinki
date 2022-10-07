@@ -5,13 +5,18 @@ import { Action } from "./reducer";
 
 export type State = {
     patients: { [id: string]: Patient };
-    currentPatient: Patient | undefined;
+    currentPatient: Patient;
     diagnosisList: Array<Diagnosis>;
 };
 
 const initialState: State = {
     patients: {},
-    currentPatient: undefined,
+    currentPatient: {
+        id: "1",
+        name: "test",
+        occupation: "some",
+        gender: "male",
+    },
     diagnosisList: [],
 };
 
