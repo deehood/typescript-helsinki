@@ -12,10 +12,10 @@ export type State = {
 const initialState: State = {
     patients: {},
     currentPatient: {
-        id: "1",
-        name: "test",
-        occupation: "some",
-        gender: "male",
+        id: "",
+        name: "",
+        occupation: "",
+        gender: "",
     },
     diagnosisList: [],
 };
