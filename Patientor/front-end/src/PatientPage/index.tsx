@@ -51,7 +51,7 @@ const PatientPage = () => {
                     <div>ssn: {patientData.ssn}</div>
                     <div>occupation: {patientData.occupation}</div>
 
-                    {patientData.entries && (
+                    {patientData.entries && patientData.entries.length > 0 && (
                         <div>
                             <p>
                                 <b>Entries</b>

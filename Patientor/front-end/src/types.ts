@@ -1,3 +1,8 @@
+export type SubEntryProps = {
+    entry: Entry;
+    getDiagName(code: string): JSX.Element;
+};
+
 export interface Diagnosis {
     code: string;
     name: string;

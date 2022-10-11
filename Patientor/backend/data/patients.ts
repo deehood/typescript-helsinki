@@ -79,6 +79,7 @@ const patients: Patient[] = [
                 date: "2019-09-10",
                 specialist: "MD House",
                 type: "OccupationalHealthcare",
+                diagnosisCodes: ["S62.5"],
                 employerName: "FBI",
                 description: "Prescriptions renewed.",
             },

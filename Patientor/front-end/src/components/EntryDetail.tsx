@@ -1,6 +1,9 @@
 import { Diagnosis, EntryProps } from "../types";
-import { useStateValue } from "../state";
 
+import { useStateValue } from "../state";
+import HospitalEntry from "./HospitalEntry";
+import OccupationalHealthcareEntry from "./OccupationalHealthcareEntry";
+import HealthCheckEntry from "./HealthCheckEntry";
 const assertNever = (value: never): never => {
     throw new Error(
         `Unhandled discriminated union member: ${JSON.stringify(value)}`
@@ -19,11 +22,16 @@ const EntryDetail = ({ entry }: EntryProps) => {
 
     switch (entry.type) {
         case "Hospital":
-            return <></>;
+            return <HospitalEntry entry={entry} getDiagName={getDiagName} />;
         case "HealthCheck":
-            return <></>;
+            return <HealthCheckEntry entry={entry} getDiagName={getDiagName} />;
         case "OccupationalHealthcare":
-            return <></>;
+            return (
+                <OccupationalHealthcareEntry
+                    entry={entry}
+                    getDiagName={getDiagName}
+                />
+            );
         default:
             return assertNever(entry);
     }
