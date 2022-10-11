@@ -38,7 +38,7 @@ const OccupationalHealthcareEntryComponent = ({
                     >
                         <span>
                             {diagCode}
-                            {diagCode && console.log(getDiagName(diagCode))}
+
                             {getDiagName(diagCode)}
                         </span>
                     </li>

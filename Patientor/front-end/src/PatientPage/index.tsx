@@ -8,10 +8,13 @@ import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import { useStateValue, loadPatient } from "../state";
 import EntryDetail from "../components/EntryDetail";
+import { State } from "../state/";
+
+type PatientType = Patient | undefined;
 
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [patientData, setPatientData] = useState<Patient>();
+    const [patientData, setPatientData] = useState<PatientType>();
     const [{ currentPatient }, dispatch] = useStateValue();
 
     const fetchPatientData = async (id: string) => {
@@ -31,9 +34,9 @@ const PatientPage = () => {
     //if there is currentPatient in state use it otherwise fetch new currentPatient
     useEffect(() => {
         if (id) {
-            id === currentPatient?.id
-                ? setPatientData(currentPatient)
-                : void fetchPatientData(id);
+            if (currentPatient && id === currentPatient.id) {
+                setPatientData(currentPatient);
+            } else void fetchPatientData(id);
         }
     }, [id]);
 

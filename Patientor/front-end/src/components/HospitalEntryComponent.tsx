@@ -27,6 +27,7 @@ const HospitalEntryComponent = ({
             <div>
                 <i>{entry.description}</i>
             </div>
+
             <ul style={{ marginBottom: "0px", marginTop: "0px" }}>
                 {entry.diagnosisCodes?.map((diagCode) => (
                     <li
@@ -37,12 +38,13 @@ const HospitalEntryComponent = ({
                     >
                         <span>
                             {diagCode}
-                            {diagCode && console.log(getDiagName(diagCode))}
+
                             {getDiagName(diagCode)}
                         </span>
                     </li>
                 ))}
             </ul>
+
             <div style={{ marginTop: "20px" }}>
                 Diagnose by {entry.specialist}
             </div>

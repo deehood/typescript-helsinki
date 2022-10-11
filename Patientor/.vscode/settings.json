@@ -1,3 +1,4 @@
 {
-    "editor.cursorStyle": "line"
+    "editor.cursorStyle": "line",
+    "cSpell.words": ["formik", "patientor"]
 }

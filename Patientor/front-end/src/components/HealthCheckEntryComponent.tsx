@@ -8,22 +8,28 @@ interface HealthCheckEntryProps {
     getDiagName(code: string): JSX.Element;
 }
 
+const assertNever = (value: never): never => {
+    throw new Error(
+        `Unhandled discriminated union member: ${JSON.stringify(value)}`
+    );
+};
+
 function getHeartColor(rating: HealthCheckRating): string {
     switch (rating) {
-        case 0:
+        case HealthCheckRating.Healthy:
             return "green";
             break;
-        case 1:
+        case HealthCheckRating.LowRisk:
             return "yellow";
             break;
-        case 2:
+        case HealthCheckRating.HighRisk:
             return "orange";
             break;
-        case 3:
+        case HealthCheckRating.CriticalRisk:
             return "purple";
             break;
         default:
-            return "white";
+            return assertNever(rating);
     }
 }
 const HealthCheckEntryComponent = ({
@@ -64,7 +70,6 @@ const HealthCheckEntryComponent = ({
                     >
                         <span>
                             {diagCode}
-                            {diagCode && console.log(getDiagName(diagCode))}
                             {getDiagName(diagCode)}
                         </span>
                     </li>

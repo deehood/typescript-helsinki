@@ -12,7 +12,8 @@ import PatientPage from "./PatientPage";
 import { Typography } from "@material-ui/core";
 
 const App = () => {
-    const [, dispatch] = useStateValue();
+    const [_state, dispatch] = useStateValue();
+    console.log(_state);
 
     React.useEffect(() => {
         void axios.get<void>(`${apiBaseUrl}/ping`);
