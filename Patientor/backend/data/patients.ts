@@ -84,6 +84,18 @@ const patients: Patient[] = [
                 description: "Prescriptions renewed.",
             },
             {
+                id: "d811e46d-70b3-4d90-b090-4535c7cf8999",
+                date: "2015-01-02",
+                type: "Hospital",
+                specialist: "MD Mulder",
+                diagnosisCodes: ["M51.2"],
+                description: "Said a ufo took her",
+                discharge: {
+                    date: "2015-01-26",
+                    criteria: "probe not found",
+                },
+            },
+            {
                 id: "37be178f-a432-4ba4-aac2-f86810e36a15",
                 date: "2018-10-05",
                 specialist: "MD House",

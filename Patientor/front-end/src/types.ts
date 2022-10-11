@@ -1,8 +1,3 @@
-export type SubEntryProps = {
-    entry: Entry;
-    getDiagName(code: string): JSX.Element;
-};
-
 export interface Diagnosis {
     code: string;
     name: string;
@@ -43,16 +38,16 @@ export enum HealthCheckRating {
     "HighRisk" = 2,
     "CriticalRisk" = 3,
 }
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
     type: "HealthCheck";
     healthCheckRating: HealthCheckRating;
 }
-interface HospitalEntry extends BaseEntry {
+export interface HospitalEntry extends BaseEntry {
     type: "Hospital";
     healthCheckRating?: HealthCheckRating;
     discharge: { date: string; criteria: string };
 }
-interface OccupationalHealthcareEntry extends BaseEntry {
+export interface OccupationalHealthcareEntry extends BaseEntry {
     type: "OccupationalHealthcare";
     employerName: string;
     sickLeave?: {
