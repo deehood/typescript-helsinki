@@ -8,7 +8,6 @@ import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import { useStateValue, loadPatient } from "../state";
 import EntryDetail from "../components/EntryDetail";
-import { State } from "../state/";
 
 type PatientType = Patient | undefined;
 
