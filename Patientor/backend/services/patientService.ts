@@ -42,6 +42,14 @@ const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
     if (!checkPatientById) throw new Error("id didn't match");
     const entryToAdd: Entry = checkNewEntry(obj);
     checkPatientById.entries?.push(entryToAdd);
+
+    const newPatientData: Patient[] = patientData.map((patient) =>
+        patient.id === patientId ? checkPatientById : patient
+    );
+
+    patientData = [...newPatientsData];
+    console.log(newp);
+
     return entryToAdd;
 };
 
