@@ -1,6 +1,6 @@
 import patientData from "../data/patients";
-import { Patient, PublicPatient } from "../types";
-import toNewPatient from "../utils";
+import { Entry, Patient, PublicPatient } from "../types";
+import { toNewPatient, checkNewEntry } from "../utils";
 
 const getPatientData = (id: string): Patient | undefined => {
     const found: Patient | undefined = patientData.find(
@@ -29,14 +29,25 @@ const getPatients = (): Array<PublicPatient> => {
     }));
 };
 
-const addPatient = (obj: unknown) => {
+const addPatient = (obj: unknown): Patient => {
     const patientToAdd: Patient = toNewPatient(obj);
     patientData.push(patientToAdd);
     return patientToAdd;
+};
+
+const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
+    const checkPatientById = patientData.find(
+        (patient) => patient.id === patientId
+    );
+    if (!checkPatientById) throw new Error("id didn't match");
+    const entryToAdd: Entry = checkNewEntry(obj);
+    checkPatientById.entries?.push(entryToAdd);
+    return entryToAdd;
 };
 
 export default {
     getPatients,
     getPatientData,
     addPatient,
+    addEntryForPatient,
 };

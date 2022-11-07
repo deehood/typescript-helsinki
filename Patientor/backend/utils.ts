@@ -1,5 +1,15 @@
-import { Patient, Gender } from "./types";
-import { v1 as uuid } from "uuid";
+import {
+    Patient,
+    Gender,
+    Entry,
+    BaseEntry,
+    HospitalEntry,
+    HealthCheckEntry,
+    OccupationalHealthcareEntry,
+    HealthCheckRating,
+    Diagnosis,
+} from "./types";
+import { parse, v1 as uuid } from "uuid";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
@@ -32,6 +42,7 @@ const parseDate = (date: unknown): string => {
     }
     return date;
 };
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const toNewPatient = (obj: any): Patient => {
     if (!Object.prototype.hasOwnProperty.call(obj, "id")) {
@@ -48,5 +59,94 @@ const toNewPatient = (obj: any): Patient => {
 
     return newObj;
 };
+const isHealthCheckRating = (field: unknown): field is HealthCheckRating => {
+    return typeof field === "number" && field >= 0 && field <= 3;
+};
 
-export default toNewPatient;
+const parseHealthCheckRating = (field: unknown): HealthCheckRating => {
+    if (!field || !isHealthCheckRating(field))
+        throw new Error("incorrect rating " + field);
+    return field;
+};
+const isDiagnosisCodes = (
+    field: unknown
+): field is Array<Diagnosis["code"]> => {
+    return Array.isArray(field) && field.length > 0;
+};
+
+const parseArray = (field: unknown): Array<Diagnosis["code"]> => {
+    if (!isDiagnosisCodes(field))
+        throw new Error("incorrect diagnosis codes " + field);
+    return field;
+};
+
+const isDischarge=(field:unknown):field is { date: string; criteria: string }=>{
+return (typeof field ==="object" && field !== null && typeof field.date==="string" && field.criteria )
+
+}
+const parseDischarge = (field:unknown): { date: string; criteria: string }=> {
+    if (!field || !isDischarge(field))
+        throw new Error("incorrect discharge " + field);
+
+return field
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const checkNewEntry = (obj: any): Entry => {
+    if (!Object.prototype.hasOwnProperty.call(obj, "id")) {
+        obj.id = uuid();
+    }
+    // check for base
+    const baseObj: BaseEntry = {
+        id: obj.id as string,
+        description: parseString(obj.description),
+        date: parseDate(obj.date),
+        specialist: parseString(obj.specialist),
+    };
+
+    if (obj.diagnosisCodes)
+        baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
+
+
+    switch (obj.type) {
+        case "Hospital": {
+            const entry: HospitalEntry = {
+                ...baseObj,
+                type: "Hospital",
+                discharge:parseDischarge(obj.discharge)
+            };
+
+            if (obj.healthCheckRating) {
+                entry.healthCheckRating = parseHealthCheckRating(
+                        obj.healthCheckRating
+                    )
+                    return entry;
+                };
+
+                return entry;
+            }
+        }
+        case "Healthcheck": {
+            const entry: HealthCheckEntry = {
+                ...baseObj,
+                type: "HealthCheck",
+                healthCheckRating: parseHealthCheckRating(
+                    obj.healthCheckRating
+                ),
+            };
+
+            return entry;
+        }
+
+        case "OccupationalHealthcare": {
+            const entry: OccupationalHealthcareEntry = {
+                ...baseObj,
+                type: "OccupationalHealthcare",
+            };
+            return entry;
+        }
+        default:
+            throw new Error("failed");
+    }
+};
+
+export { toNewPatient, checkNewEntry };
