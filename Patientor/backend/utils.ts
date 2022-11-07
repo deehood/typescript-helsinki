@@ -9,7 +9,7 @@ import {
     HealthCheckRating,
     Diagnosis,
 } from "./types";
-import { parse, v1 as uuid } from "uuid";
+import { v1 as uuid } from "uuid";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
@@ -80,16 +80,42 @@ const parseArray = (field: unknown): Array<Diagnosis["code"]> => {
     return field;
 };
 
-const isDischarge=(field:unknown):field is { date: string; criteria: string }=>{
-return (typeof field ==="object" && field !== null && typeof field.date==="string" && field.criteria )
-
-}
-const parseDischarge = (field:unknown): { date: string; criteria: string }=> {
+const isDischarge = (
+    field: unknown
+): field is { date: string; criteria: string } => {
+    return (
+        typeof field === "object" &&
+        field !== null &&
+        "date" in field &&
+        "criteria" in field
+    );
+};
+const parseDischarge = (field: unknown): { date: string; criteria: string } => {
     if (!field || !isDischarge(field))
         throw new Error("incorrect discharge " + field);
 
-return field
-}
+    return field;
+};
+
+const isSickLeave = (
+    field: unknown
+): field is { startDate: string; endDate: string } => {
+    return (
+        typeof field === "object" &&
+        field !== null &&
+        "startDate" in field &&
+        "endDate" in field
+    );
+};
+const parseSickleave = (
+    field: unknown
+): { startDate: string; endDate: string } => {
+    if (!field || !isSickLeave(field))
+        throw new Error("incorrect sick leave" + field);
+
+    return field;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkNewEntry = (obj: any): Entry => {
     if (!Object.prototype.hasOwnProperty.call(obj, "id")) {
@@ -106,25 +132,24 @@ const checkNewEntry = (obj: any): Entry => {
     if (obj.diagnosisCodes)
         baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
 
-
     switch (obj.type) {
         case "Hospital": {
             const entry: HospitalEntry = {
                 ...baseObj,
                 type: "Hospital",
-                discharge:parseDischarge(obj.discharge)
+                discharge: parseDischarge(obj.discharge),
             };
 
             if (obj.healthCheckRating) {
                 entry.healthCheckRating = parseHealthCheckRating(
-                        obj.healthCheckRating
-                    )
-                    return entry;
-                };
-
+                    obj.healthCheckRating
+                );
                 return entry;
             }
+
+            return entry;
         }
+
         case "Healthcheck": {
             const entry: HealthCheckEntry = {
                 ...baseObj,
@@ -141,7 +166,14 @@ const checkNewEntry = (obj: any): Entry => {
             const entry: OccupationalHealthcareEntry = {
                 ...baseObj,
                 type: "OccupationalHealthcare",
+                employerName: parseString(obj.employerName),
             };
+
+            if (obj.sickLeave) {
+                entry.sickLeave = parseSickleave(obj.sickLeave);
+                return entry;
+            }
+
             return entry;
         }
         default:
