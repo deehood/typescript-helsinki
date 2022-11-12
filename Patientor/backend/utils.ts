@@ -64,54 +64,36 @@ const isHealthCheckRating = (field: unknown): field is HealthCheckRating => {
 };
 
 const parseHealthCheckRating = (field: unknown): HealthCheckRating => {
-    if (!field || !isHealthCheckRating(field))
+    console.log(field);
+    if (field === "undefined" || field === "null" || !isHealthCheckRating(field))
         throw new Error("incorrect rating " + field);
     return field;
 };
-const isDiagnosisCodes = (
-    field: unknown
-): field is Array<Diagnosis["code"]> => {
+const isDiagnosisCodes = (field: unknown): field is Array<Diagnosis["code"]> => {
     return Array.isArray(field) && field.length > 0;
 };
 
 const parseArray = (field: unknown): Array<Diagnosis["code"]> => {
-    if (!isDiagnosisCodes(field))
-        throw new Error("incorrect diagnosis codes " + field);
+    if (!isDiagnosisCodes(field)) throw new Error("incorrect diagnosis codes " + field);
     return field;
 };
 
-const isDischarge = (
-    field: unknown
-): field is { date: string; criteria: string } => {
-    return (
-        typeof field === "object" &&
-        field !== null &&
-        "date" in field &&
-        "criteria" in field
-    );
+const isDischarge = (field: unknown): field is { date: string; criteria: string } => {
+    return typeof field === "object" && field !== null && "date" in field && "criteria" in field;
 };
 const parseDischarge = (field: unknown): { date: string; criteria: string } => {
-    if (!field || !isDischarge(field))
-        throw new Error("incorrect discharge " + field);
+    if (!field || !isDischarge(field)) throw new Error("incorrect discharge " + field);
 
     return field;
 };
 
-const isSickLeave = (
-    field: unknown
-): field is { startDate: string; endDate: string } => {
+const isSickLeave = (field: unknown): field is { startDate: string; endDate: string } => {
     return (
-        typeof field === "object" &&
-        field !== null &&
-        "startDate" in field &&
-        "endDate" in field
+        typeof field === "object" && field !== null && "startDate" in field && "endDate" in field
     );
 };
-const parseSickleave = (
-    field: unknown
-): { startDate: string; endDate: string } => {
-    if (!field || !isSickLeave(field))
-        throw new Error("incorrect sick leave" + field);
+const parseSickleave = (field: unknown): { startDate: string; endDate: string } => {
+    if (!field || !isSickLeave(field)) throw new Error("incorrect sick leave" + field);
 
     return field;
 };
@@ -129,9 +111,9 @@ const checkNewEntry = (obj: any): Entry => {
         specialist: parseString(obj.specialist),
     };
 
-    if (obj.diagnosisCodes)
-        baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
+    if (obj.diagnosisCodes) baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
 
+    console.log(obj, obj.type);
     switch (obj.type) {
         case "Hospital": {
             const entry: HospitalEntry = {
@@ -141,22 +123,18 @@ const checkNewEntry = (obj: any): Entry => {
             };
 
             if (obj.healthCheckRating) {
-                entry.healthCheckRating = parseHealthCheckRating(
-                    obj.healthCheckRating
-                );
+                entry.healthCheckRating = parseHealthCheckRating(obj.healthCheckRating);
                 return entry;
             }
 
             return entry;
         }
 
-        case "Healthcheck": {
+        case "HealthCheck": {
             const entry: HealthCheckEntry = {
                 ...baseObj,
                 type: "HealthCheck",
-                healthCheckRating: parseHealthCheckRating(
-                    obj.healthCheckRating
-                ),
+                healthCheckRating: parseHealthCheckRating(obj.healthCheckRating),
             };
 
             return entry;

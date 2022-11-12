@@ -3,9 +3,7 @@ import { Entry, Patient, PublicPatient } from "../types";
 import { toNewPatient, checkNewEntry } from "../utils";
 
 const getPatientData = (id: string): Patient | undefined => {
-    const found: Patient | undefined = patientData.find(
-        (patient) => patient.id === id
-    );
+    const found: Patient | undefined = patientData.find((patient) => patient.id === id);
     return found
         ? {
               id: found.id,
@@ -36,19 +34,11 @@ const addPatient = (obj: unknown): Patient => {
 };
 
 const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
-    const checkPatientById = patientData.find(
-        (patient) => patient.id === patientId
-    );
-    if (!checkPatientById) throw new Error("id didn't match");
+    const index = patientData.findIndex((patient) => patient.id === patientId);
+    if (!index) throw new Error("id didn't match");
     const entryToAdd: Entry = checkNewEntry(obj);
-    checkPatientById.entries?.push(entryToAdd);
 
-    const newPatientData: Patient[] = patientData.map((patient) =>
-        patient.id === patientId ? checkPatientById : patient
-    );
-
-    patientData = [...newPatientsData];
-    console.log(newp);
+    patientData[index].entries?.push(entryToAdd);
 
     return entryToAdd;
 };
