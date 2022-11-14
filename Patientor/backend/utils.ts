@@ -9,6 +9,7 @@ import {
     HealthCheckRating,
     Diagnosis,
     Discharge,
+    SickLeave,
 } from "./types";
 import { v1 as uuid } from "uuid";
 
@@ -95,13 +96,19 @@ const parseDischarge = (field: unknown): Discharge => {
     return field;
 };
 
-const isSickLeave = (field: unknown): field is { startDate: string; endDate: string } => {
+const isSickLeave = (field: any): field is SickLeave => {
     return (
-        typeof field === "object" && field !== null && "startDate" in field && "endDate" in field
+        "startDate" in field &&
+        "endDate" in field &&
+        isString(field.startDate) &&
+        isString(field.endDate) &&
+        isDate(field["startDate"]) &&
+        isDate(field["endDate"])
     );
 };
-const parseSickleave = (field: unknown): { startDate: string; endDate: string } => {
-    if (!field || !isSickLeave(field)) throw new Error("incorrect sick leave" + field);
+const parseSickleave = (field: unknown): SickLeave => {
+    if (!field || typeof field !== "object" || !isSickLeave(field))
+        throw new Error("incorrect sick leave" + field);
 
     return field;
 };
