@@ -12,6 +12,7 @@ import {
     SickLeave,
 } from "./types";
 import { v1 as uuid } from "uuid";
+import diagnoseData from "./data/diagnoses";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
@@ -72,11 +73,20 @@ const parseHealthCheckRating = (field: unknown): HealthCheckRating => {
     return field;
 };
 const isDiagnosisCodes = (field: unknown): field is Array<Diagnosis["code"]> => {
-    return Array.isArray(field) && field.length > 0;
+    let testCodes = false;
+    if (Array.isArray(field) && field.length > 0) {
+        testCodes = field.every((entry) => {
+            if (isString(entry))
+                return diagnoseData.map((diagnosis) => diagnosis.code).includes(entry);
+            throw new Error("incorrect diagnosis codes");
+        });
+    }
+    return testCodes;
 };
 
 const parseArray = (field: unknown): Array<Diagnosis["code"]> => {
-    if (!isDiagnosisCodes(field)) throw new Error("incorrect diagnosis codes " + field);
+    if (typeof field !== "object" || !isDiagnosisCodes(field))
+        throw new Error("incorrect diagnosis codes " + field);
     return field;
 };
 
