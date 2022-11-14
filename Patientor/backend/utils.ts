@@ -8,6 +8,7 @@ import {
     OccupationalHealthcareEntry,
     HealthCheckRating,
     Diagnosis,
+    Discharge,
 } from "./types";
 import { v1 as uuid } from "uuid";
 
@@ -78,11 +79,18 @@ const parseArray = (field: unknown): Array<Diagnosis["code"]> => {
     return field;
 };
 
-const isDischarge = (field: unknown): field is { date: string; criteria: string } => {
-    return typeof field === "object" && field !== null && "date" in field && "criteria" in field;
+const isDischarge = (field: any): field is Discharge => {
+    return (
+        "date" in field &&
+        "criteria" in field &&
+        isString(field.date) &&
+        isString(field.criteria) &&
+        isDate(field["date"])
+    );
 };
-const parseDischarge = (field: unknown): { date: string; criteria: string } => {
-    if (!field || !isDischarge(field)) throw new Error("incorrect discharge " + field);
+const parseDischarge = (field: unknown): Discharge => {
+    if (!field || typeof field !== "object" || !isDischarge(field))
+        throw new Error("incorrect discharge " + field);
 
     return field;
 };
