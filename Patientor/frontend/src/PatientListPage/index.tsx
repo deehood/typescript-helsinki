@@ -37,10 +37,7 @@ const PatientListPage = () => {
         } catch (e: unknown) {
             if (axios.isAxiosError(e)) {
                 console.error(e?.response?.data || "Unrecognized axios error");
-                setError(
-                    String(e?.response?.data?.error) ||
-                        "Unrecognized axios error"
-                );
+                setError(String(e?.response?.data?.error) || "Unrecognized axios error");
             } else {
                 console.error("Unknown error", e);
                 setError("Unknown error");
@@ -68,9 +65,7 @@ const PatientListPage = () => {
                     {Object.values(patients).map((patient: Patient) => (
                         <TableRow key={patient.id}>
                             <TableCell>
-                                <Link to={`/patients/${patient.id}`}>
-                                    {patient.name}
-                                </Link>
+                                <Link to={`/patients/${patient.id}`}>{patient.name}</Link>
                             </TableCell>
                             <TableCell>{patient.gender}</TableCell>
                             <TableCell>{patient.occupation}</TableCell>

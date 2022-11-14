@@ -8,6 +8,7 @@ import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import { useStateValue, loadPatient } from "../state";
 import EntryDetail from "../components/EntryDetail";
+import { Button } from "@mui/material";
 
 type PatientType = Patient | undefined;
 
@@ -18,9 +19,7 @@ const PatientPage = () => {
 
     const fetchPatientData = async (id: string) => {
         try {
-            const patient = await axios.get<Patient>(
-                `${apiBaseUrl}/patients/${id}`
-            );
+            const patient = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
             if (patient.data) {
                 setPatientData(patient.data);
                 dispatch(loadPatient(patient.data));
@@ -41,7 +40,7 @@ const PatientPage = () => {
 
     return (
         <>
-            {patientData && (
+            {patientData ? (
                 <>
                     <h4>
                         {patientData.name}
@@ -66,8 +65,21 @@ const PatientPage = () => {
                             ))}
                         </div>
                     )}
+                    <Button
+                        size="small"
+                        variant="contained"
+                        sx={{
+                            "&:hover": {
+                                background: "#d5d5d5",
+                            },
+                            color: "black",
+                            background: "#e0e0e0;",
+                        }}
+                    >
+                        ADD ENTRY
+                    </Button>
                 </>
-            )}
+            ) : null}
         </>
     );
 };

@@ -30,9 +30,9 @@ const App = () => {
         };
         const fetchDiagnosisList = async () => {
             try {
-                const { data: diagnosisListFromApi } = await axios.get<
-                    Diagnosis[]
-                >(`${apiBaseUrl}/diagnosis`);
+                const { data: diagnosisListFromApi } = await axios.get<Diagnosis[]>(
+                    `${apiBaseUrl}/diagnosis`
+                );
                 dispatch(setDiagnosisList(diagnosisListFromApi));
             } catch (e) {
                 console.error(e);
@@ -49,12 +49,7 @@ const App = () => {
                     <Typography variant="h3" style={{ marginBottom: "0.5em" }}>
                         Patientor
                     </Typography>
-                    <Button
-                        component={Link}
-                        to="/"
-                        variant="contained"
-                        color="primary"
-                    >
+                    <Button component={Link} to="/" variant="contained" color="primary">
                         Home
                     </Button>
 
