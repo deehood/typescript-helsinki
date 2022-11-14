@@ -89,7 +89,7 @@ const parseArray = (field: unknown): Array<Diagnosis["code"]> => {
         throw new Error("incorrect diagnosis codes " + field);
     return field;
 };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isDischarge = (field: any): field is Discharge => {
     return (
         "date" in field &&
@@ -105,7 +105,7 @@ const parseDischarge = (field: unknown): Discharge => {
 
     return field;
 };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isSickLeave = (field: any): field is SickLeave => {
     return (
         "startDate" in field &&
@@ -138,7 +138,6 @@ const checkNewEntry = (obj: any): Entry => {
 
     if (obj.diagnosisCodes) baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
 
-    console.log(obj, obj.type);
     switch (obj.type) {
         case "Hospital": {
             const entry: HospitalEntry = {
