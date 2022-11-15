@@ -20,7 +20,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 date: "",
                 specialist: "",
                 diagnosisCodes: [],
-                healthCheckRating: 1,
+                healthCheckRating: 0,
             }}
             onSubmit={onSubmit}
             validate={(values) => {
@@ -53,7 +53,12 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                             name="description"
                             component={TextField}
                         />
-                        <Field label="Date" placeholder="Date" name="date" component={TextField} />
+                        <Field
+                            label="Date"
+                            placeholder="YYYY-MM-DD"
+                            name="date"
+                            component={TextField}
+                        />
                         <Field
                             label="Specialist"
                             placeholder="Specialist"
@@ -66,7 +71,13 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                             setFieldTouched={setFieldTouched}
                             diagnoses={Object.values(diagnosisList)}
                         />
-                        <Field label="healthCheckRating" min={0} max={3} component={NumberField} />
+                        <Field
+                            component={NumberField}
+                            label="healthCheckRating"
+                            min={0}
+                            max={3}
+                            name="healthCheckRating"
+                        />
                         <Grid>
                             <Grid item>
                                 <Button
