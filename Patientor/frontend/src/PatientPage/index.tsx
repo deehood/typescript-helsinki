@@ -40,6 +40,7 @@ const PatientPage = () => {
         setError(undefined);
     };
     //TODO  async values: EntryFormValues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const submitNewEntry = (values: any) => {
         console.log(values);
 

@@ -24,7 +24,7 @@ export interface Patient {
     entries?: Entry[];
 }
 
-interface BaseEntry {
+export interface BaseEntry {
     id: string;
     description: string;
     date: string;
@@ -56,10 +56,7 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
     };
 }
 
-export type Entry =
-    | HospitalEntry
-    | OccupationalHealthcareEntry
-    | HealthCheckEntry;
+export type Entry = HospitalEntry | OccupationalHealthcareEntry | HealthCheckEntry;
 
 export interface EntryProps {
     entry: Entry;
