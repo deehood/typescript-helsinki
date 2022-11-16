@@ -1,14 +1,21 @@
 import { Field, Formik, Form } from "formik";
 import { Grid, Button } from "@material-ui/core";
-import { HealthCheckEntry } from "../types";
+import { HealthCheckEntry, HealthCheckRating } from "../types";
 import { useStateValue } from "../state";
-import { DiagnosisSelection, NumberField, TextField } from "./../AddPatientModal/FormField";
+import { DiagnosisSelection, SelectField, TextField } from "./../AddPatientModal/FormField";
 
 export type EntryFormValues = Omit<HealthCheckEntry, "id" | "type">;
 interface Props {
     onSubmit: (values: EntryFormValues) => void;
     onCancel: () => void;
 }
+
+const healthCheckRatingOptions = [
+    { value: HealthCheckRating.Healthy, label: "Healthy" },
+    { value: HealthCheckRating.LowRisk, label: "LowRisk" },
+    { value: HealthCheckRating.HighRisk, label: "HighRisk" },
+    { value: HealthCheckRating.CriticalRisk, label: "CriticalRisk" },
+];
 
 const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     const [{ diagnosisList }] = useStateValue();
@@ -20,7 +27,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 date: "",
                 specialist: "",
                 diagnosisCodes: [],
-                healthCheckRating: 0,
+                healthCheckRating: HealthCheckRating.Healthy,
             }}
             onSubmit={onSubmit}
             validate={(values) => {
@@ -35,12 +42,10 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 if (!values.specialist) {
                     errors.specialist = requiredError;
                 }
-                // if (!values.diagnosisCodes) {
-                //     errors.diagnosisCodes = requiredError;
+
+                // if (!values.healthCheckRating) {
+                //     errors.healthCheckRating = requiredError;
                 // }
-                if (!values.healthCheckRating) {
-                    errors.healthCheckRating = requiredError;
-                }
                 return errors;
             }}
         >
@@ -71,13 +76,12 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                             setFieldTouched={setFieldTouched}
                             diagnoses={Object.values(diagnosisList)}
                         />
-                        <Field
-                            component={NumberField}
-                            label="healthCheckRating"
-                            min={0}
-                            max={3}
+                        <SelectField
+                            label="HealthCheck Rating"
                             name="healthCheckRating"
+                            options={healthCheckRatingOptions}
                         />
+
                         <Grid>
                             <Grid item>
                                 <Button
