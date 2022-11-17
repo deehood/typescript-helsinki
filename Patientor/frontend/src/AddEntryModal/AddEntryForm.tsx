@@ -3,6 +3,7 @@ import { Grid, Button } from "@material-ui/core";
 import { HealthCheckEntry, HealthCheckRating } from "../types";
 import { useStateValue } from "../state";
 import { DiagnosisSelection, SelectField, TextField } from "./../AddPatientModal/FormField";
+import { isDate } from "../utils";
 
 export type EntryFormValues = Omit<HealthCheckEntry, "id">;
 interface Props {
@@ -39,7 +40,8 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 }
                 if (!values.date) {
                     errors.date = requiredError;
-                }
+                } else if (!isDate(values.date)) errors.date = "Invalid Date";
+
                 if (!values.specialist) {
                     errors.specialist = requiredError;
                 }
