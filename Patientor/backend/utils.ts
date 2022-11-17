@@ -135,7 +135,7 @@ const checkNewEntry = (obj: any): Entry => {
         specialist: parseString(obj.specialist),
     };
 
-    if (obj.diagnosisCodes) baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
+    if (obj.diagnosisCodes.length > 0) baseObj.diagnosisCodes = parseArray(obj.diagnosisCodes);
 
     switch (obj.type) {
         case "Hospital": {
