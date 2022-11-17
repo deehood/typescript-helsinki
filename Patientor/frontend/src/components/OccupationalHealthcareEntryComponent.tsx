@@ -44,9 +44,7 @@ const OccupationalHealthcareEntryComponent = ({
                     </li>
                 ))}
             </ul>
-            <div style={{ marginTop: "20px" }}>
-                Diagnose by {entry.specialist}
-            </div>
+            <div style={{ marginTop: "20px" }}>Diagnosed by {entry.specialist}</div>
         </div>
     );
 };

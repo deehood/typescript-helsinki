@@ -9,9 +9,7 @@ interface HealthCheckEntryProps {
 }
 
 const assertNever = (value: never): never => {
-    throw new Error(
-        `Unhandled discriminated union member: ${JSON.stringify(value)}`
-    );
+    throw new Error(`Unhandled discriminated union member: ${JSON.stringify(value)}`);
 };
 
 function getHeartColor(rating: HealthCheckRating): string {
@@ -32,10 +30,7 @@ function getHeartColor(rating: HealthCheckRating): string {
             return assertNever(rating);
     }
 }
-const HealthCheckEntryComponent = ({
-    entry,
-    getDiagName,
-}: HealthCheckEntryProps): JSX.Element => {
+const HealthCheckEntryComponent = ({ entry, getDiagName }: HealthCheckEntryProps): JSX.Element => {
     return (
         <div
             className="entry"
@@ -75,9 +70,7 @@ const HealthCheckEntryComponent = ({
                     </li>
                 ))}
             </ul>
-            <div style={{ marginTop: "20px" }}>
-                Diagnose by {entry.specialist}
-            </div>
+            <div style={{ marginTop: "20px" }}>Diagnosed by {entry.specialist}</div>
         </div>
     );
 };

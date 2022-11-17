@@ -6,10 +6,7 @@ interface HospitalEntryProps {
     getDiagName(code: string): JSX.Element;
 }
 
-const HospitalEntryComponent = ({
-    entry,
-    getDiagName,
-}: HospitalEntryProps): JSX.Element => {
+const HospitalEntryComponent = ({ entry, getDiagName }: HospitalEntryProps): JSX.Element => {
     return (
         <div
             className="entry"
@@ -45,9 +42,7 @@ const HospitalEntryComponent = ({
                 ))}
             </ul>
 
-            <div style={{ marginTop: "20px" }}>
-                Diagnose by {entry.specialist}
-            </div>
+            <div style={{ marginTop: "20px" }}>Diagnosed by {entry.specialist}</div>
         </div>
     );
 };
