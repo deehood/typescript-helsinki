@@ -26,20 +26,23 @@ const getPatients = (): Array<PublicPatient> => {
         occupation,
     }));
 };
-//TODO get rid of pushes
+//  patientData is the DB -  pushes are OK
 const addPatient = (obj: unknown): Patient => {
     const patientToAdd: Patient = toNewPatient(obj);
     patientData.push(patientToAdd);
+
     return patientToAdd;
 };
 
 const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
     const index = patientData.findIndex((patient) => patient.id === patientId);
 
+    console.log("index", index);
+
     if (index === -1) throw new Error("id didn't match");
 
     const entryToAdd: Entry = checkNewEntry(obj);
-
+    if (patientData[index] && !patientData[index].entries) patientData[index].entries = [];
     patientData[index].entries?.push(entryToAdd);
 
     return entryToAdd;

@@ -47,6 +47,7 @@ const PatientPage = () => {
                 `${apiBaseUrl}/patients/${id}/entries`,
                 values
             );
+            if (currentPatient) dispatch(loadPatient(currentPatient));
             dispatch(addEntry(newEntry));
             closeModal();
         } catch (e: unknown) {

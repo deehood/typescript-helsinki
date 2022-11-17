@@ -13,7 +13,7 @@ import { Typography } from "@material-ui/core";
 
 const App = () => {
     const [_state, dispatch] = useStateValue();
-    console.log("state ", _state);
+    console.log("App state ", _state);
 
     useEffect(() => {
         void axios.get<void>(`${apiBaseUrl}/ping`);
