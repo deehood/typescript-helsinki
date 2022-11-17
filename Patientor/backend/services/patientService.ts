@@ -37,7 +37,7 @@ const addPatient = (obj: unknown): Patient => {
 const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
     const index = patientData.findIndex((patient) => patient.id === patientId);
 
-    console.log("index", index);
+    // console.log("index", index);
 
     if (index === -1) throw new Error("id didn't match");
 

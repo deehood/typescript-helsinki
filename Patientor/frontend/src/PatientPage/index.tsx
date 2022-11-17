@@ -39,7 +39,7 @@ const PatientPage = () => {
     };
 
     const submitNewEntry = async (values: EntryFormValues) => {
-        console.log("submitNewEntry ", values);
+        // console.log("submitNewEntry ", values);
         if (!id) throw new Error("no id");
 
         try {

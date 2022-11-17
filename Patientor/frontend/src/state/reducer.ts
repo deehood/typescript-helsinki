@@ -84,8 +84,8 @@ export const reducer = (state: State, action: Action): State => {
                 },
             };
         case "ADD_ENTRY":
-            console.log("resolver state.currentPatient", state.currentPatient);
-            console.log("resolver payload", action.payload);
+            // console.log("resolver state.currentPatient", state.currentPatient);
+            // console.log("resolver payload", action.payload);
 
             if (state.currentPatient) {
                 if (!state.currentPatient.entries) state.currentPatient.entries = [];
@@ -106,15 +106,6 @@ export const reducer = (state: State, action: Action): State => {
             } else return state;
 
         case "LOAD_PATIENT":
-            // console.log(state.currentPatient?.entries);
-
-            // if (!state.currentPatient?.entries && state.currentPatient?.id) {
-            //     state.patients[state.currentPatient?.id].entries = [];
-            //     console.log(state.patients[state.currentPatient?.id]);
-            // }
-            // if (state.currentPatient?.id)
-            //     console.log("form load", state.patients[state.currentPatient?.id]);
-
             return {
                 ...state,
                 currentPatient: action.payload,
