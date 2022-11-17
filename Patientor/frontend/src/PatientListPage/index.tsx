@@ -44,6 +44,7 @@ const PatientListPage = () => {
             }
         }
     };
+    // const getLastRating=(id)
 
     return (
         <div className="App">

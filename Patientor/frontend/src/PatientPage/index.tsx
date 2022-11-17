@@ -15,7 +15,7 @@ import { addEntry } from "../state/reducer";
 
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [{ currentPatient }, dispatch] = useStateValue();
+    const [{ currentPatient, patients }, dispatch] = useStateValue();
 
     const fetchPatientData = async (id: string) => {
         try {
@@ -63,7 +63,10 @@ const PatientPage = () => {
 
     //if there is currentPatient in state use it otherwise fetch new currentPatient
     useEffect(() => {
-        if (id) void fetchPatientData(id);
+        if (id && !("entries" in patients[id])) {
+            void fetchPatientData(id);
+            patients[id].entries = currentPatient?.entries;
+        }
     }, [id]);
 
     return (

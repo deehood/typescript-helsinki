@@ -106,6 +106,15 @@ export const reducer = (state: State, action: Action): State => {
             } else return state;
 
         case "LOAD_PATIENT":
+            // console.log(state.currentPatient?.entries);
+
+            // if (!state.currentPatient?.entries && state.currentPatient?.id) {
+            //     state.patients[state.currentPatient?.id].entries = [];
+            //     console.log(state.patients[state.currentPatient?.id]);
+            // }
+            // if (state.currentPatient?.id)
+            //     console.log("form load", state.patients[state.currentPatient?.id]);
+
             return {
                 ...state,
                 currentPatient: action.payload,
