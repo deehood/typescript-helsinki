@@ -39,7 +39,6 @@ const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
     if (index === -1) throw new Error("id didn't match");
 
     const entryToAdd: Entry = checkNewEntry(obj);
-    console.log("data", patientData);
 
     patientData[index].entries?.push(entryToAdd);
 
