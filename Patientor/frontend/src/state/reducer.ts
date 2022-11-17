@@ -86,13 +86,22 @@ export const reducer = (state: State, action: Action): State => {
         case "ADD_ENTRY":
             console.log(action.payload);
 
-            return {
-                ...state,
-                // currentPatient: {
-                //     ...state.currentPatient,
-                //     entries: state.currentPatient?.entries?.concat(action.payload),
-                // },
-            };
+            if (state.currentPatient)
+                return {
+                    ...state,
+                    patients: {
+                        ...state.patients,
+                        [state.currentPatient.id]: {
+                            ...state.currentPatient,
+                            entries: state.currentPatient.entries?.concat(action.payload),
+                        },
+                    },
+                    currentPatient: {
+                        ...state.currentPatient,
+                        entries: state.currentPatient.entries?.concat(action.payload),
+                    },
+                };
+            else return state;
 
         case "LOAD_PATIENT":
             return {

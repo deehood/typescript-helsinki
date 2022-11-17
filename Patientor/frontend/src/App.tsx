@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container } from "@material-ui/core";
@@ -13,9 +13,9 @@ import { Typography } from "@material-ui/core";
 
 const App = () => {
     const [_state, dispatch] = useStateValue();
-    console.log(_state);
+    console.log("state ", _state);
 
-    React.useEffect(() => {
+    useEffect(() => {
         void axios.get<void>(`${apiBaseUrl}/ping`);
 
         const fetchPatientList = async () => {
@@ -38,9 +38,9 @@ const App = () => {
                 console.error(e);
             }
         };
-        void fetchPatientList();
+        if (Object.entries(_state.patients).length === 0) void fetchPatientList();
         void fetchDiagnosisList();
-    }, [dispatch]);
+    }, []);
 
     return (
         <div className="App">
