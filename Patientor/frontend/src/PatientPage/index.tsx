@@ -10,6 +10,8 @@ import { useStateValue, loadPatient } from "../state";
 import EntryDetail from "../components/EntryDetail";
 import { Button } from "@mui/material";
 import AddEntryModal from "../AddEntryModal";
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
+import { addEntry } from "../state/reducer";
 
 type PatientType = Patient | undefined;
 
@@ -39,24 +41,27 @@ const PatientPage = () => {
         setModalOpen(false);
         setError(undefined);
     };
-    //TODO  async values: EntryFormValues
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const submitNewEntry = (values: any) => {
-        console.log(values);
 
-        // try {
-        //     const { data: newEntry } = await axios.post<Entry>(`${apiBaseUrl}/Entries`, values);
-        //     dispatch(addEntry(newEntry));
-        //     closeModal();
-        // } catch (e: unknown) {
-        //     if (axios.isAxiosError(e)) {
-        //         console.error(e?.response?.data || "Unrecognized axios error");
-        //         setError(String(e?.response?.data?.error) || "Unrecognized axios error");
-        //     } else {
-        //         console.error("Unknown error", e);
-        //         setError("Unknown error");
-        //     }
-        // }
+    const submitNewEntry = async (values: EntryFormValues) => {
+        console.log("submitNewEntry ", values);
+        if (!id) throw new Error("no id");
+
+        try {
+            const { data: newEntry } = await axios.post<Entry>(
+                `${apiBaseUrl}/patients/${id}/entries`,
+                values
+            );
+            dispatch(addEntry(newEntry));
+            closeModal();
+        } catch (e: unknown) {
+            if (axios.isAxiosError(e)) {
+                console.error(e?.response?.data || "Unrecognized axios error");
+                setError(String(e?.response?.data?.error) || "Unrecognized axios error");
+            } else {
+                console.error("Unknown error", e);
+                setError("Unknown error");
+            }
+        }
     };
 
     //if there is currentPatient in state use it otherwise fetch new currentPatient

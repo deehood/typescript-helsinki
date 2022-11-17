@@ -26,7 +26,7 @@ const getPatients = (): Array<PublicPatient> => {
         occupation,
     }));
 };
-
+//TODO get rid of push
 const addPatient = (obj: unknown): Patient => {
     const patientToAdd: Patient = toNewPatient(obj);
     patientData.push(patientToAdd);
@@ -35,10 +35,12 @@ const addPatient = (obj: unknown): Patient => {
 
 const addEntryForPatient = (patientId: unknown, obj: unknown): Entry => {
     const index = patientData.findIndex((patient) => patient.id === patientId);
-    if (!index) throw new Error("id didn't match");
+
+    if (index === -1) throw new Error("id didn't match");
+
     const entryToAdd: Entry = checkNewEntry(obj);
 
-    patientData[index].entries?.push(entryToAdd);
+    patientData[index].entries?.concat(entryToAdd);
 
     return entryToAdd;
 };

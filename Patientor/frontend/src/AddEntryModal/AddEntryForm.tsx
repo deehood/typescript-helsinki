@@ -4,7 +4,7 @@ import { HealthCheckEntry, HealthCheckRating } from "../types";
 import { useStateValue } from "../state";
 import { DiagnosisSelection, SelectField, TextField } from "./../AddPatientModal/FormField";
 
-export type EntryFormValues = Omit<HealthCheckEntry, "id" | "type">;
+export type EntryFormValues = Omit<HealthCheckEntry, "id">;
 interface Props {
     onSubmit: (values: EntryFormValues) => void;
     onCancel: () => void;
@@ -23,6 +23,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     return (
         <Formik
             initialValues={{
+                type: "HealthCheck",
                 description: "",
                 date: "",
                 specialist: "",
@@ -43,9 +44,6 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                     errors.specialist = requiredError;
                 }
 
-                // if (!values.healthCheckRating) {
-                //     errors.healthCheckRating = requiredError;
-                // }
                 return errors;
             }}
         >

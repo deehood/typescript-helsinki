@@ -13,11 +13,10 @@ router.get("/:id", (req, res) => {
     result ? res.send(result) : res.sendStatus(404);
 });
 router.post("/:id/entries", (req, res) => {
+    console.log("controller", req.body);
+
     try {
-        const result = patientService.addEntryForPatient(
-            req.params.id,
-            req.body
-        );
+        const result = patientService.addEntryForPatient(req.params.id, req.body);
         res.send(result);
     } catch (error: unknown) {
         console.log(error);

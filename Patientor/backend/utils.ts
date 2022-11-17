@@ -67,7 +67,6 @@ const isHealthCheckRating = (field: unknown): field is HealthCheckRating => {
 };
 
 const parseHealthCheckRating = (field: unknown): HealthCheckRating => {
-    console.log(field);
     if (field === "undefined" || field === "null" || !isHealthCheckRating(field))
         throw new Error("incorrect rating " + field);
     return field;
@@ -78,6 +77,7 @@ const isDiagnosisCodes = (field: unknown): field is Array<Diagnosis["code"]> => 
         testCodes = field.every((entry) => {
             if (isString(entry))
                 return diagnoseData.map((diagnosis) => diagnosis.code).includes(entry);
+
             throw new Error("incorrect diagnosis codes");
         });
     }
@@ -102,7 +102,6 @@ const isDischarge = (field: any): field is Discharge => {
 const parseDischarge = (field: unknown): Discharge => {
     if (!field || typeof field !== "object" || !isDischarge(field))
         throw new Error("incorrect discharge " + field);
-
     return field;
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
