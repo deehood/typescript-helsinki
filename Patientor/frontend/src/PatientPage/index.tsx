@@ -13,18 +13,14 @@ import AddEntryModal from "../AddEntryModal";
 import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 import { addEntry } from "../state/reducer";
 
-type PatientType = Patient | undefined;
-
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [patientData, setPatientData] = useState<PatientType>();
     const [{ currentPatient }, dispatch] = useStateValue();
 
     const fetchPatientData = async (id: string) => {
         try {
             const patient = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
             if (patient.data) {
-                setPatientData(patient.data);
                 dispatch(loadPatient(patient.data));
             }
         } catch (e) {
@@ -66,34 +62,30 @@ const PatientPage = () => {
 
     //if there is currentPatient in state use it otherwise fetch new currentPatient
     useEffect(() => {
-        if (id) {
-            if (currentPatient && id === currentPatient.id) {
-                setPatientData(currentPatient);
-            } else void fetchPatientData(id);
-        }
+        if (id) void fetchPatientData(id);
     }, [id]);
 
     return (
         <>
-            {patientData ? (
+            {currentPatient ? (
                 <>
                     <h4>
-                        {patientData.name}
+                        {currentPatient.name}
 
-                        {patientData.gender === "female" && <FemaleIcon />}
-                        {patientData.gender === "male" && <MaleIcon />}
-                        {patientData.gender === "other" && <TransgenderIcon />}
+                        {currentPatient.gender === "female" && <FemaleIcon />}
+                        {currentPatient.gender === "male" && <MaleIcon />}
+                        {currentPatient.gender === "other" && <TransgenderIcon />}
                     </h4>
-                    <div>ssn: {patientData.ssn}</div>
-                    <div>occupation: {patientData.occupation}</div>
+                    <div>ssn: {currentPatient.ssn}</div>
+                    <div>occupation: {currentPatient.occupation}</div>
 
-                    {patientData.entries && patientData.entries.length > 0 && (
+                    {currentPatient.entries && currentPatient.entries.length > 0 && (
                         <div>
                             <p>
                                 <b>Entries</b>
                             </p>
 
-                            {patientData.entries.map((entry: Entry) => (
+                            {currentPatient.entries.map((entry: Entry) => (
                                 <div key={entry.id}>
                                     <EntryDetail entry={entry} />
                                 </div>
