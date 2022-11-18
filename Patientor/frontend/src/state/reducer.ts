@@ -84,8 +84,8 @@ export const reducer = (state: State, action: Action): State => {
                 },
             };
         case "ADD_ENTRY":
-            // console.log("resolver state.currentPatient", state.currentPatient);
-            // console.log("resolver payload", action.payload);
+            console.log("resolver state.currentPatient", state.currentPatient);
+            console.log("resolver payload", action.payload);
 
             if (state.currentPatient) {
                 if (!state.currentPatient.entries) state.currentPatient.entries = [];

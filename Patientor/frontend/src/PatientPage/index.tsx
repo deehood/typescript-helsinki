@@ -22,6 +22,7 @@ const PatientPage = () => {
             const patient = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
             if (patient.data) {
                 dispatch(loadPatient(patient.data));
+                patients[id].entries = patient.data.entries;
             }
         } catch (e) {
             console.error(e);
@@ -39,7 +40,6 @@ const PatientPage = () => {
     };
 
     const submitNewEntry = async (values: EntryFormValues) => {
-        // console.log("submitNewEntry ", values);
         if (!id) throw new Error("no id");
 
         try {
@@ -47,8 +47,8 @@ const PatientPage = () => {
                 `${apiBaseUrl}/patients/${id}/entries`,
                 values
             );
-            if (currentPatient) dispatch(loadPatient(currentPatient));
             dispatch(addEntry(newEntry));
+
             closeModal();
         } catch (e: unknown) {
             if (axios.isAxiosError(e)) {
@@ -60,12 +60,11 @@ const PatientPage = () => {
             }
         }
     };
-
-    //if there is currentPatient in state use it otherwise fetch new currentPatient
+    // only fetch from DB if no entries
     useEffect(() => {
-        if (id && !("entries" in patients[id])) {
-            void fetchPatientData(id);
-            patients[id].entries = currentPatient?.entries;
+        if (id) {
+            if (patients[id].entries === undefined) void fetchPatientData(id);
+            dispatch(loadPatient(patients[id]));
         }
     }, [id]);
 
