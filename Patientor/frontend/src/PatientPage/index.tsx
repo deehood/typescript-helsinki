@@ -22,7 +22,7 @@ const PatientPage = () => {
             const patient = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
             if (patient.data) {
                 dispatch(loadPatient(patient.data));
-                patients[id].entries = patient.data.entries;
+                if (patients[id]) patients[id].entries = patient.data.entries;
             }
         } catch (e) {
             console.error(e);
@@ -63,7 +63,7 @@ const PatientPage = () => {
     // only fetch from DB if no entries
     useEffect(() => {
         if (id) {
-            if (patients[id].entries === undefined) void fetchPatientData(id);
+            if (!patients[id] || patients[id].entries === undefined) void fetchPatientData(id);
             dispatch(loadPatient(patients[id]));
         }
     }, [id]);

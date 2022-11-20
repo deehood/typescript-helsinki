@@ -1,11 +1,17 @@
 import { Field, Formik, Form } from "formik";
 import { Grid, Button } from "@material-ui/core";
-import { Entry, HealthCheckRating } from "../types";
+import { Entry, HealthCheckEntry, HealthCheckRating } from "../types";
 import { useStateValue } from "../state";
 import { DiagnosisSelection, SelectField, TextField } from "./../AddPatientModal/FormField";
 import { isDate } from "../utils";
 
-export type EntryFormValues = Omit<Entry, "id">;
+export type EntryFormValues = Omit<Entry, "id"> &
+    (
+        | {
+              discharge: { date: string; criteria: string };
+          }
+        | HealthCheckEntry
+    );
 interface Props {
     onSubmit: (values: EntryFormValues) => void;
     onCancel: () => void;
@@ -35,25 +41,51 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 date: "",
                 specialist: "",
                 diagnosisCodes: [],
+                healthCheckRating: 0,
+                discharge: {
+                    date: "",
+                    criteria: "",
+                },
             }}
             onSubmit={onSubmit}
             validate={(values) => {
                 console.log(values);
-                // if (values.type === "HealthCheck") values[healthCheckRating] = "";
 
                 const requiredError = "Field is required";
-                const errors: { [field: string]: string } = {};
+                const errors: {
+                    [field: string]: string;
+                } = {};
+
                 if (!values.description) {
                     errors.description = requiredError;
                 }
+
                 if (!values.date) {
                     errors.date = requiredError;
-                } else if (!isDate(values.date)) errors.date = "Invalid Date";
+                } else if (!isDate(values.date)) {
+                    errors.date = "Invalid Date";
+                }
 
                 if (!values.specialist) {
                     errors.specialist = requiredError;
                 }
 
+                if (values.type === "Hospital") {
+                    console.log(values.discharge.date);
+
+                    if (!values.discharge.date) {
+                        errors["discharge.date"] = requiredError;
+                    }
+                    if (!isDate(values.discharge.date)) {
+                        errors.discharge = "Invalid Date";
+                    }
+                    if (!values.discharge.criteria) {
+                        const field = values.discharge.criteria;
+                        console.log(field);
+
+                        errors.field = requiredError;
+                    }
+                }
                 return errors;
             }}
         >
@@ -96,7 +128,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 
                         {values.type === "Hospital" && (
                             <>
-                                <h5>Discharge</h5>
+                                <h3>Discharge</h3>
                                 <Field
                                     label="Date"
                                     placeholder="YYYY-MM-DD"
