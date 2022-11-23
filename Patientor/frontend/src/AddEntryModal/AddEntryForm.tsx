@@ -115,8 +115,6 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 
                     if (!values.employerName) errors.employerName = requiredError;
 
-                    // Object.assign(errors, { employerName: requiredError });
-
                     if (values.sickLeave.startDate && !isDate(values.sickLeave.startDate)) {
                         Object.assign(errors.sickLeave, { startDate: "Invalid Date" });
                     }
@@ -125,7 +123,14 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                     }
 
                     if (Object.keys(errors.employerName).length === 0) delete errors.employerName;
-                    if (Object.keys(errors.sickLeave).length === 0) delete errors.sickLeave;
+
+                    if (
+                        Object.keys(values.sickLeave.startDate).length === 0 &&
+                        Object.keys(values.sickLeave.endDate).length === 0
+                    )
+                        delete errors.sickLeave;
+                    if (isDate(values.sickLeave.startDate) && isDate(values.sickLeave.endDate))
+                        delete errors.sickLeave;
                 }
 
                 console.log("errors -> ", errors);
