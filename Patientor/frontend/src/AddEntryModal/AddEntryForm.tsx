@@ -77,14 +77,19 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 }
 
                 if (values.type === "Hospital") {
-                    if (!values.discharge.criteria) {
-                        Object.assign(errors, { discharge: { date: requiredError } });
+                    if (!("discharge" in errors)) Object.assign(errors, { discharge: {} });
+
+                    if (!values.discharge.date) {
+                        Object.assign(errors.discharge, { date: requiredError });
                     } else if (!isDate(values.discharge.date)) {
-                        Object.assign(errors, { discharge: { date: "Invalid Date" } });
+                        Object.assign(errors.discharge, { date: "Invalid Date" });
                     }
 
                     if (!values.discharge.criteria) {
-                        Object.assign(errors, { discharge: { criteria: requiredError } });
+                        Object.assign(errors.discharge, { criteria: requiredError });
+                    }
+                    if (errors.discharge === "") {
+                        console.log("empty");
                     }
                 }
                 console.log("errors -> ", errors);

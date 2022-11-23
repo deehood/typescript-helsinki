@@ -29,6 +29,6 @@
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": ["/home/mick/dev/typescript-helsinki/Patientor/frontend/tsconfig.json"]
+        "project": ["tsconfig.json"]
     }
 }
