@@ -29,6 +29,12 @@ const entryOptions = [
     { value: "Hospital", label: "Hospital" },
     { value: "OccupationalHealthcare", label: "Occupational Healthcare" },
 ];
+interface Discharge {
+    discharge: {
+        date: string;
+        criteria: string;
+    };
+}
 
 const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     const [{ diagnosisList }] = useStateValue();
@@ -53,7 +59,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 
                 const requiredError = "Field is required";
                 const errors: {
-                    [field: string]: string;
+                    [field: string]: string | Discharge;
                 } = {};
 
                 if (!values.description) {
@@ -71,21 +77,18 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 }
 
                 if (values.type === "Hospital") {
-                    console.log(values.discharge.date);
-
-                    if (!values.discharge.date) {
-                        errors["discharge.date"] = requiredError;
-                    }
-                    if (!isDate(values.discharge.date)) {
-                        errors.discharge = "Invalid Date";
-                    }
                     if (!values.discharge.criteria) {
-                        const field = values.discharge.criteria;
-                        console.log(field);
+                        Object.assign(errors, { discharge: { date: requiredError } });
+                    } else if (!isDate(values.discharge.date)) {
+                        Object.assign(errors, { discharge: { date: "Invalid Date" } });
+                    }
 
-                        errors.field = requiredError;
+                    if (!values.discharge.criteria) {
+                        Object.assign(errors, { discharge: { criteria: requiredError } });
                     }
                 }
+                console.log("errors", errors);
+
                 return errors;
             }}
         >
