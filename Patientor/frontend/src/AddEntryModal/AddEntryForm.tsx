@@ -55,7 +55,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
             }}
             onSubmit={onSubmit}
             validate={(values) => {
-                console.log(values);
+                console.log("values ->", values);
 
                 const requiredError = "Field is required";
                 const errors: {
@@ -87,7 +87,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                         Object.assign(errors, { discharge: { criteria: requiredError } });
                     }
                 }
-                console.log("errors", errors);
+                console.log("errors -> ", errors);
 
                 return errors;
             }}
