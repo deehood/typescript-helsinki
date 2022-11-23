@@ -88,9 +88,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                     if (!values.discharge.criteria) {
                         Object.assign(errors.discharge, { criteria: requiredError });
                     }
-                    if (errors.discharge === "") {
-                        console.log("empty");
-                    }
+                    if (Object.keys(errors.discharge).length === 0) delete errors.discharge;
                 }
                 console.log("errors -> ", errors);
 
